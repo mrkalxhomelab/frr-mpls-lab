@@ -1,0 +1,46 @@
+name: frr-mpls
+
+topology:
+  kinds:
+    linux:
+      image: frrouting/frr:latest
+
+  nodes:
+    r1:
+      kind: linux
+      binds:
+        - configs/r1/frr.conf:/etc/frr/frr.conf
+        - configs/r1/daemons:/etc/frr/daemons
+    r2:
+      kind: linux
+      binds:
+        - configs/r2/frr.conf:/etc/frr/frr.conf
+        - configs/r2/daemons:/etc/frr/daemons
+    r3:
+      kind: linux
+      binds:
+        - configs/r3/frr.conf:/etc/frr/frr.conf
+        - configs/r3/daemons:/etc/frr/daemons
+    r4:
+      kind: linux
+      binds:
+        - configs/r4/frr.conf:/etc/frr/frr.conf
+        - configs/r4/daemons:/etc/frr/daemons
+    ler1:
+      kind: linux
+      binds:
+        - configs/ler1/frr.conf:/etc/frr/frr.conf
+        - configs/ler1/daemons:/etc/frr/daemons
+    ler2:
+      kind: linux
+      binds:
+        - configs/ler2/frr.conf:/etc/frr/frr.conf
+        - configs/ler2/daemons:/etc/frr/daemons
+
+  links:
+    - endpoints: ["ler1:eth1", "r1:eth1"]
+    - endpoints: ["r1:eth2", "r2:eth1"]
+    - endpoints: ["r2:eth2", "r3:eth1"]
+    - endpoints: ["r3:eth2", "r4:eth1"]
+    - endpoints: ["r4:eth2", "r1:eth3"]
+    - endpoints: ["r2:eth3", "ler2:eth1"]
